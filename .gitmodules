@@ -1,0 +1,9 @@
+[submodule "modules/dankoma.js"]
+	path = modules/dankoma.js
+	url = https://github.com/Yonle/dankoma.js.git
+[submodule "dankoma-loader"]
+	path = dankoma-loader
+	url = https://github.com/Yonle/dankoma-loader
+[submodule "modules/dankomaconv.js"]
+	path = modules/dankomaconv.js
+	url = https://github.com/Yonle/dankomaconv.js.git

@@ -1,0 +1,25 @@
+{
+  "name": "dankomap",
+  "description": "A desktop video player with Bilibili-style danmaku support, powered by Dankoma.js.",
+  "version": "0.0.1",
+  "main": "dankoma-loader/index.html",
+  "window": {
+    "title": "Dankoma Player",
+    "width": 900,
+    "height": 600,
+    "resizable": true,
+    "frame": true
+  },
+  "devDependencies": {
+    "nw-builder": "^4.19.0"
+  },
+  "scripts": {
+    "prepare-conv": "npm --prefix modules/dankomaconv.js install",
+    "build": "nwbuild --version 0.114.1 --platform $PLATFORM --arch x64 --outDir=out-$PLATFORM --mode=build --glob true --zip true --shaSum true --ffmpeg true --logLevel debug \"{package.json,dankoma-loader/**,modules/**,!dankoma-loader/.git/**,!modules/**/.git/**}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yonle/dankomap.git"
+  },
+  "license": "BSD-3-Clause"
+}
