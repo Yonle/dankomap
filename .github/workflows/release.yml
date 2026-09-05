@@ -1,0 +1,134 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux
+          - win
+          - osx
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Install converter dependencies
+        run: npm run prepare-conv
+
+      - name: Build
+        env:
+          PLATFORM: ${{ matrix.platform }}
+        run: npm run build
+
+      - name: Prepare release artifacts
+        run: |
+          mv "out-${{ matrix.platform }}.zip" \
+             "dankomap-${{ matrix.platform }}.zip"
+
+          sha256sum \
+            "dankomap-${{ matrix.platform }}.zip" \
+            > "dankomap-${{ matrix.platform }}.zip.sha256"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dankomap-${{ matrix.platform }}
+          path: |
+            dankomap-${{ matrix.platform }}.zip
+            dankomap-${{ matrix.platform }}.zip.sha256
+          if-no-files-found: error
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Calculate release version
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          DATE="$(date -u +'%Y.%m.%d')"
+
+          LAST_REV="$(
+            gh release list \
+              --limit 1000 \
+              --json tagName \
+              --jq '.[] | select(.tagName | startswith("'"$DATE"'-r")) | .tagName' |
+            sed -n "s/^${DATE}-r\([0-9][0-9]*\)$/\1/p" |
+            sort -n |
+            tail -n 1
+          )"
+
+          if [ -z "$LAST_REV" ]; then
+            REV=1
+          else
+            REV=$((LAST_REV + 1))
+          fi
+
+          TAG="${DATE}-r${REV}"
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          echo "Release: $TAG"
+
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: dankomap-linux
+          path: release
+
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: dankomap-win
+          path: release
+
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: dankomap-osx
+          path: release
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          gh release create "$TAG" \
+            release/dankomap-linux.zip \
+            release/dankomap-linux.zip.sha256 \
+            release/dankomap-win.zip \
+            release/dankomap-win.zip.sha256 \
+            release/dankomap-osx.zip \
+            release/dankomap-osx.zip.sha256 \
+            --title "$TAG" \
+            --generate-notes
