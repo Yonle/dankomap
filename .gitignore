@@ -1,0 +1,51 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+modules/dankomaconv.js/node_modules/
+
+# NW.js builds
+out/
+build/
+dist/
+
+# Packaged artifacts
+*.zip
+*.exe
+*.AppImage
+*.dmg
+*.deb
+*.rpm
+*.tar.gz
+
+# Checksums
+*.sha256
+*.sha512
+*.md5
+
+# Logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Local NW.js / FFmpeg files
+nwjs/
+libffmpeg.so
