@@ -6,7 +6,8 @@
   "icon": "dankoma-loader/favicon.ico",
   "nwbuild": {
     "app": {
-      "icon": "dankoma-loader/favicon.ico"
+      "icon": "dankoma-loader/favicon.ico",
+      "LSApplicationCategoryType": "public.app-category.video"
     }
   },
   "window": {
