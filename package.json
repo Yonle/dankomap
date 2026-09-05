@@ -7,7 +7,8 @@
   "nwbuild": {
     "app": {
       "icon": "dankoma-loader/favicon.ico",
-      "LSApplicationCategoryType": "public.app-category.video"
+      "LSApplicationCategoryType": "public.app-category.video",
+      "NSHumanReadableCopyright": "Copyright © 2026 Yonle. All rights reserved."
     }
   },
   "window": {
