@@ -26,13 +26,14 @@ If the repository was already cloned:
 git submodule update --init --recursive
 ```
 
-Install the converter dependencies:
+Install the dependencies:
 
 ```bash
+npm run prepare-cdebug
 npm run prepare-conv
 ```
 
-This installs the dependencies of `modules/dankomaconv.js`, including `protobufjs`.
+This also installs the dependencies of `modules/dankomaconv.js`, including `protobufjs`.
 
 You can also run it manually:
 

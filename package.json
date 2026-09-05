@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "main": "dankoma-loader/index.html",
   "icon": "dankoma-loader/favicon.ico",
+  "type": "module",
   "nwbuild": {
     "app": {
       "icon": "dankoma-loader/favicon.ico",
@@ -22,6 +23,7 @@
     "nw-builder": "^4.19.0"
   },
   "scripts": {
+    "prepare-cdebug": "npm --prefix modules/cdebug install",
     "prepare-conv": "npm --prefix modules/dankomaconv.js install",
     "build": "nwbuild --version 0.114.1 --platform $PLATFORM --arch x64 --outDir=out-$PLATFORM --mode=build --glob true --zip true --shaSum true --ffmpeg true --logLevel debug \"{package.json,dankoma-loader/**,modules/**,!dankoma-loader/.git/**,!modules/**/.git/**}\""
   },
@@ -29,5 +31,9 @@
     "type": "git",
     "url": "git+https://github.com/Yonle/dankomap.git"
   },
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "undici": "^8.10.2",
+    "ws": "^8.21.3"
+  }
 }
