@@ -4,6 +4,11 @@
   "version": "0.0.1",
   "main": "dankoma-loader/index.html",
   "icon": "dankoma-loader/favicon.ico",
+  "nwbuild": {
+    "app": {
+      "icon": "dankoma-loader/favicon.ico"
+    }
+  },
   "window": {
     "title": "Dankoma Player",
     "width": 900,
