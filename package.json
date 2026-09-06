@@ -31,9 +31,5 @@
     "type": "git",
     "url": "git+https://github.com/Yonle/dankomap.git"
   },
-  "license": "BSD-3-Clause",
-  "dependencies": {
-    "undici": "^8.10.2",
-    "ws": "^8.21.3"
-  }
+  "license": "BSD-3-Clause"
 }
